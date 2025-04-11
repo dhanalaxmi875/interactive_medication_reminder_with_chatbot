@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refill</title>
+    <link rel="stylesheet" href="refill.css">
+    <link rel="stylesheet" href="darkmode.css">
+    <script src="darkmode.js"></script>
+    <style>
+        .add-medication-form {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+        .medication-entries {
+            margin-bottom: 15px;
+        }
+        .medication-entry {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+            align-items: center;
+        }
+        .medication-entry input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .medication-entry .name-input {
+            flex: 2;
+        }
+        .medication-entry .stock-input {
+            flex: 1;
+            width: 80px;
+        }
+        .remove-entry {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .remove-entry:hover {
+            background-color: #cc0000;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .add-entry-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .add-entry-btn:hover {
+            background-color: #45a049;
+        }
+        .save-all-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .save-all-btn:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="refill-container">
+        <h2>Track Your Pills</h2>
+        
+        <!-- Add Multiple Medications Form -->
+        <div class="add-medication-form">
+            <h3>Add New Medications</h3>
+            <div id="medication-entries" class="medication-entries">
+                <!-- Medication entries will be added here -->
+            </div>
+            <div class="action-buttons">
+                <button id="add-entry-btn" class="add-entry-btn">Add Another Medication</button>
+                <button id="save-all-btn" class="save-all-btn">Save All Medications</button>
+            </div>
+        </div>
+
+        <!-- Medications List -->
+        <div id="medications-list"></div>
+    </div>
+
+    <script src="shared_storage.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const medicationsList = document.getElementById('medications-list');
+            const medicationEntries = document.getElementById('medication-entries');
+            const addEntryBtn = document.getElementById('add-entry-btn');
+            const saveAllBtn = document.getElementById('save-all-btn');
+            let db;
+
+            try {
+                db = await initializeDB();
+                addMedicationEntry(); // Add first entry by default
+                await loadMedications();
+            } catch (error) {
+                console.error('Failed to initialize database:', error);
+                alert('Error initializing database. Please refresh the page.');
+            }
+
+            // Add new medication entry
+            function addMedicationEntry() {
+                const entry = document.createElement('div');
+                entry.className = 'medication-entry';
+                entry.innerHTML = `
+                    <input type="text" class="name-input" placeholder="Medication Name" required>
+                    <input type="number" class="stock-input" value="30" min="0" required>
+                    <button class="remove-entry">Remove</button>
+                `;
+
+                entry.querySelector('.remove-entry').addEventListener('click', () => {
+                    if (document.querySelectorAll('.medication-entry').length > 1) {
+                        entry.remove();
+                    } else {
+                        alert('You must have at least one medication entry.');
+                    }
+                });
+
+                medicationEntries.appendChild(entry);
+            }
+
+            // Add another entry button
+            addEntryBtn.addEventListener('click', addMedicationEntry);
+
+            // Save all medications
+            saveAllBtn.addEventListener('click', async function() {
+                const entries = document.querySelectorAll('.medication-entry');
+                const medications = [];
+
+                // Collect all entries
+                entries.forEach(entry => {
+                    const name = entry.querySelector('.name-input').value.trim();
+                    const stock = parseInt(entry.querySelector('.stock-input').value);
+
+                    if (name && !isNaN(stock)) {
+                        medications.push({ name, stock });
+                    }
+                });
+
+                if (medications.length === 0) {
+                    alert('Please add at least one valid medication.');
+                    return;
+                }
+
+                try {
+                    // Save each medication
+                    for (const med of medications) {
+                        await addMedicationWithStock(med.name, med.stock);
+                    }
+
+                    alert('All medications added successfully!');
+                    
+                    // Clear all entries except one
+                    medicationEntries.innerHTML = '';
+                    addMedicationEntry();
+                    
+                    await loadMedications();
+                } catch (error) {
+                    console.error('Error adding medications:', error);
+                    alert('Failed to add medications. Please try again.');
+                }
+            });
+
+            async function loadMedications() {
+                try {
+                    const transaction = db.transaction(['reminders', 'stock'], 'readonly');
+                    const reminderStore = transaction.objectStore('reminders');
+                    const stockStore = transaction.objectStore('stock');
+
+                    const reminders = await new Promise((resolve, reject) => {
+                        const request = reminderStore.getAll();
+                        request.onsuccess = () => resolve(request.result);
+                        request.onerror = () => reject(request.error);
+                    });
+
+                    medicationsList.innerHTML = '';
+
+                    for (const reminder of reminders) {
+                        const stockData = await getMedicationStock(reminder.id);
+
+                        const medicationItem = document.createElement('div');
+                        medicationItem.className = 'medication-item';
+                        medicationItem.innerHTML = `
+                            <div class="medication-info">
+                                <h3>${reminder.medicationName}</h3>
+                            </div>
+                            <div class="stock-control">
+                                <label>Current Stock:</label>
+                                <input type="number" 
+                                    value="${stockData.stock}" 
+                                    min="0" 
+                                    max="100" 
+                                    data-med-id="${reminder.id}"
+                                    class="stock-input">
+                                <button class="refill-btn" data-med-id="${reminder.id}">Refill</button>
+                                <button class="delete-btn" data-med-id="${reminder.id}">Delete</button>
+                            </div>
+                        `;
+
+                        const stockInput = medicationItem.querySelector('.stock-input');
+                        const refillBtn = medicationItem.querySelector('.refill-btn');
+                        const deleteBtn = medicationItem.querySelector('.delete-btn');
+
+                        // Update stock when changed
+                        stockInput.addEventListener('change', async function() {
+                            const newStock = parseInt(this.value);
+                            try {
+                                await updateMedicationStock(reminder.id, reminder.medicationName, newStock);
+                                if (newStock <= 5) {
+                                    alert(`Low stock alert: ${reminder.medicationName} has only ${newStock} doses left!`);
+                                }
+                            } catch (error) {
+                                console.error('Error updating stock:', error);
+                                alert('Failed to update stock. Please try again.');
+                                await loadMedications(); // Reload to show correct stock
+                            }
+                        });
+
+                        // Refill button handler
+                        refillBtn.addEventListener('click', async function() {
+                            try {
+                                await updateMedicationStock(reminder.id, reminder.medicationName, 30);
+                                stockInput.value = 30;
+                                alert(`${reminder.medicationName} has been refilled to 30 doses.`);
+                            } catch (error) {
+                                console.error('Error refilling medication:', error);
+                                alert('Failed to refill medication. Please try again.');
+                                await loadMedications(); // Reload to show correct stock
+                            }
+                        });
+
+                        // Delete button handler
+                        deleteBtn.addEventListener('click', async function() {
+                            if (confirm(`Are you sure you want to delete ${reminder.medicationName}?`)) {
+                                try {
+                                    await deleteMedication(reminder.id);
+                                    alert(`${reminder.medicationName} has been deleted.`);
+                                    await loadMedications();
+                                } catch (error) {
+                                    console.error('Error deleting medication:', error);
+                                    alert('Failed to delete medication. Please try again.');
+                                }
+                            }
+                        });
+
+                        medicationsList.appendChild(medicationItem);
+                    }
+                } catch (error) {
+                    console.error('Error loading medications:', error);
+                    // Instead of showing alert, display error in the medications list
+                    medicationsList.innerHTML = `
+                        <div class="error-message" style="color: red; padding: 20px;">
+                            Error loading medications. Please try refreshing the page.
+                            <br>
+                            Error details: ${error.message}
+                        </div>
+                    `;
+                }
+            }
+        });
+    </script>
+    <script src="darkmode.js"></script>
+</body>
+</html>

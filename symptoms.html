@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom to Medication</title>
+    <link rel="stylesheet" href="symptoms.css">
+    <link rel="stylesheet" href="darkmode.css">
+    <script src="darkmode.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Symptom to Medication Finder</h1>
+        <form id="symptom-form">
+            <label for="symptoms">Enter Symptoms (comma separated):</label>
+            <input type="text" id="symptoms" name="symptoms" placeholder="e.g., headache, nausea" required>
+            <button type="submit">Get Medications</button>
+        </form>
+        <div id="medications-result"></div>
+    </div>
+
+    <script src="symptoms.js"></script>
+
+
+</body>
+</html>

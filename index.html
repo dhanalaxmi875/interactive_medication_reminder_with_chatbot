@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medication Reminder - Home</title>
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body class="light-mode">
+    <header>
+      <div class="header-container">
+        <h1>Interactive Medication Reminder</h1>
+        <button class="theme-toggle" onclick="toggleDarkMode()">
+          <span id="theme-icon">🌞</span>
+          <span id="theme-text">Toggle Theme</span>
+        </button>
+        <nav>
+          <ul>
+            <li><a href="medication.html" class="btn">Add Medication</a></li>
+            <li><a href="pill-info.html" class="btn">Pill Info</a></li>
+            <li><a href="progress.html" class="btn">Track Progress</a></li>
+            <li><a href="refill.html" class="btn">Refill Pills</a></li>
+            <li><a href="alarm-sounds.html" class="btn">Set Alarm</a></li>
+            <li>
+              <a href="health-journal.html" class="btn">Health-Journal</a>
+            </li>
+            <li>
+              <a href="diet.html" class="btn">Nutrition Analyser</a>
+            </li>
+            <li>
+              <a href="symptoms.html" class="btn">Symptoms</a>
+            </li>
+            <li>
+              <button id="medChatBtn" class="btn">Med Chat</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="home-description">
+        <p>
+          Welcome to your Medication Reminder System. Manage your medications,
+          set reminders, and stay on top of your health easily!
+        </p>
+      </section>
+
+      <section class="quote-section">
+        <h2>Daily Health and Well-being Quote</h2>
+        <p id="quote-text">Fetching quote...</p>
+        <p id="quote-author" class="author"></p>
+      </section>
+    </main>
+
+    <!-- Chatbot Modal -->
+    <div id="chatModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <iframe id="chatFrame" src="http://localhost:8000" width="100%" height="600px" frameborder="0"></iframe>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Medication Reminder, All rights reserved.</p>
+    </footer>
+
+    <script src="home.js"></script>
+    <script>
+      // Fetch the daily quote from They Said So API
+      async function fetchDailyQuote() {
+        try {
+          const response = await fetch(
+            "https://api.api-ninjas.com/v1/quotes?category=health",
+            {
+              headers: {
+                "X-Api-Key": "/LOQvKKB/eDR42q310INFw==LslKWQz8S4U2TrCi", // Replace with your API key
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch quote");
+          }
+
+          const data = await response.json();
+
+          // Update the DOM with the fetched quote
+          document.getElementById(
+            "quote-text"
+          ).textContent = `"${data[0].quote}"`;
+          document.getElementById(
+            "quote-author"
+          ).textContent = `- ${data[0].author}`;
+        } catch (error) {
+          console.error("Error fetching the quote:", error);
+
+          // Fallback message
+          document.getElementById("quote-text").textContent =
+            "Take care of your body. It's the only place you have to live.";
+          document.getElementById("quote-author").textContent = "- Jim Rohn";
+        }
+      }
+
+      // Fetch the quote when the page loads
+      document.addEventListener("DOMContentLoaded", fetchDailyQuote);
+    </script>
+    <script src="darkmode.js"></script>
+  </body>
+</html>

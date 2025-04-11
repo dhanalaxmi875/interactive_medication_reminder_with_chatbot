@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Journal</title>
+    <link rel="stylesheet" href="health-journal.css" />
+    <link rel="stylesheet" href="darkmode.css">
+    
+  </head>
+  <body>
+    <div class="journal-container">
+      <h1>Health Journal</h1>
+      <div class="mood-section">
+        <h2>How are you feeling today?</h2>
+        <div id="mood-buttons">
+          <button data-mood="😊" class="mood-btn">😊</button>
+          <button data-mood="😐" class="mood-btn">😐</button>
+          <button data-mood="😔" class="mood-btn">😔</button>
+          <button data-mood="😡" class="mood-btn">😡</button>
+          <button data-mood="😴" class="mood-btn">😴</button>
+        </div>
+        <p id="selected-mood">Mood: None</p>
+      </div>
+      <div class="editor-section">
+        <h2>Today's Entry</h2>
+        <textarea
+          id="journal-entry"
+          rows="10"
+          placeholder="Write about your day here..."
+        ></textarea>
+        <button id="save-entry-btn">Save Entry</button>
+      </div>
+      <div class="calendar-section">
+        <h2>View Past Entries</h2>
+        <div id="calendar"></div>
+      </div>
+    </div>
+    <script src="darkmode.js"></script>
+    <script src="health-journal.js"></script>
+
+  </body>
+</html>

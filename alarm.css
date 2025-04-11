@@ -1,0 +1,110 @@
+/* General styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+.alarm-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input fields and button */
+input[type="time"],
+select,
+button {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="time"]:focus,
+select:focus,
+button:focus {
+  border-color: #4caf50;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Success message */
+#alarmMessage {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Link styles */
+a {
+  text-decoration: none;
+  color: #4caf50;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode header {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark-mode nav ul li a {
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+body.dark-mode nav ul li a:hover {
+  background-color: #555;
+}
+
+body.dark-mode .home-description,
+body.dark-mode .quote-section {
+  background-color: #1e1e1e;
+  color: #c0c0c0;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode footer {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}

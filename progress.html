@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress Tracker</title>
+    <link rel="stylesheet" href="progress.css" />
+    <link rel="stylesheet" href="progress-common.css" />
+    <link rel="stylesheet" href="darkmode.css" />
+    <script src="darkmode.js"></script>
+  </head>
+  <body>
+    <div class="progress-container">
+      <h2>Track Your Medication Progress</h2>
+      <div class="progress-bar-container">
+        <label for="progress">Overall Progress:</label>
+        <div class="progress-wrapper">
+          <progress id="progress" value="0" max="100"></progress>
+          <span id="progress-percentage">0%</span>
+        </div>
+      </div>
+      <div class="message-container">
+        <p id="message" class="encouragement-message"></p>
+      </div>
+      <div class="navigation-links">
+        <a href="index.html" class="nav-link">Back to Home</a>
+        <a href="medication.html" class="nav-link">Manage Medications</a>
+      </div>
+    </div>
+
+    <script src="progress.js"></script>
+    <script src="darkmode.js"></script>
+  </body>
+</html>

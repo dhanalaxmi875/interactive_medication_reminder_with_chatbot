@@ -1,0 +1,94 @@
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f3f4f6;
+  margin: 0;
+  padding: 0;
+}
+
+.diet-plan-container {
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  background: ehite;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #4caf50; /* Dark green for headings */
+}
+
+form {
+  margin-top: 20px;
+}
+
+input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #66bb6a; /* Green border for inputs */
+  border-radius: 5px;
+}
+
+button {
+  background-color: #4caf50; /* Green button background */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4caf50; /* Darker green on hover */
+}
+
+.results-container {
+  margin-top: 20px;
+  text-align: left;
+  padding: 10px;
+}
+
+.diet-item {
+  background: #e8f5e9; /* Light green for result items */
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #c8e6c9; /* Lighter green border */
+  border-radius: 5px;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode header {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark-mode nav ul li a {
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+body.dark-mode nav ul li a:hover {
+  background-color: #555;
+}
+
+body.dark-mode .home-description,
+body.dark-mode .quote-section {
+  background-color: #1e1e1e;
+  color: #c0c0c0;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode footer {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Reminder</title>
+    <link rel="stylesheet" href="medication.css" />
+    <link rel="stylesheet" href="progress-common.css" />
+    <link rel="stylesheet" href="darkmode.css">
+    <script src="darkmode.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="error-container"></div>
+        <div class="reset-section" style="text-align: center; margin-bottom: 20px;">
+            <button id="reset-db" style="padding: 10px 20px; background-color: #ff4444; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Reset Database
+            </button>
+        </div>
+        <header class="header-container">
+            <h1>Medication Reminder</h1>
+        </header>
+        
+        
+        <!-- Add Medication Form -->
+        <form id="medication-form">
+            <input type="text" id="medication-name" placeholder="Medication Name" required>
+            <input type="text" id="dosage" placeholder="Dosage (e.g., 1 pill)" required>
+            <input type="number" id="frequency" placeholder="Times per day" min="1" required>
+            <input type="time" id="reminder-time" required>
+            <input type="date" id="start-date" required>
+            <input type="date" id="end-date" required>
+            
+            <div class="days-container">
+                <label><input type="checkbox" value="Sunday"> Sunday</label>
+                <label><input type="checkbox" value="Monday"> Monday</label>
+                <label><input type="checkbox" value="Tuesday"> Tuesday</label>
+                <label><input type="checkbox" value="Wednesday"> Wednesday</label>
+                <label><input type="checkbox" value="Thursday"> Thursday</label>
+                <label><input type="checkbox" value="Friday"> Friday</label>
+                <label><input type="checkbox" value="Saturday"> Saturday</label>
+            </div>
+            
+            <button type="submit">Add Reminder</button>
+        </form>
+
+        <!-- Reminders List -->
+        <div class="reminders-section">
+            <h2>Your Medications</h2>
+            <ul id="reminder-items"></ul>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h2>Overall Progress</h2>
+            <div class="progress-bar-container">
+                <div class="progress-wrapper">
+                    <progress id="progress" value="0" max="100"></progress>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <p id="progress-message"></p>
+            </div>
+        </div>
+    </div>
+    <audio id="alarm-sound" src="assets/sounds/alarm.mp3"></audio>
+    <script src="shared_storage.js"></script>
+    <script src="medication.js"></script>
+    
+</body>
+</html>

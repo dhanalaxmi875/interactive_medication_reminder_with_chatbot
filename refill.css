@@ -1,0 +1,95 @@
+.refill-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.medication-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.medication-info {
+    flex: 1;
+}
+
+.medication-info h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.stock-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stock-input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.refill-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.refill-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #da190b;
+}
+
+/* Dark mode styles */
+.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-mode .medication-item {
+    background-color: #444;
+    border-color: #555;
+}
+
+.dark-mode .medication-info h3 {
+    color: #fff;
+}
+
+.dark-mode .stock-input {
+    background-color: #555;
+    border-color: #666;
+    color: #fff;
+}
+
+.dark-mode .add-medication-form {
+    background-color: #444;
+}
+
+.dark-mode .form-group input {
+    background-color: #555;
+    border-color: #666;
+    color: #fff;
+}

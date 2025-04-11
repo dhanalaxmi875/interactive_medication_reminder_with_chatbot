@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pill Information</title>
+    <link rel="stylesheet" href="pill-info.css" />
+    <link rel="stylesheet" href="darkmode.css" />
+    <script src="darkmode.js"></script>
+    <script defer src="pill-info.js"></script>
+    
+  </head>
+  <body>
+    <div class="pill-info-container">
+      <h2>Search Medication Info</h2>
+      <form id="pill-form">
+        <label for="pill-name">Enter Pill Name:</label>
+        <input
+          type="text"
+          id="pill-name"
+          name="pill-name"
+          placeholder="e.g., ibuprofen"
+          required
+        />
+        <button type="submit" class="btn">Search</button>
+      </form>
+      <div id="pill-results" class="pill-results">
+        <h3>Results:</h3>
+        <div id="pill-info">
+          <!-- Results will be displayed here -->
+        </div>
+      </div>
+    </div>
+    <script src="darkmode.js"></script>
+  </body>
+</html>
