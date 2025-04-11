@@ -284,3 +284,6 @@ body.dark-mode #medChatBtn {
 body.dark-mode #medChatBtn:hover {
   background-color: #2c6934;
 }
+
+.copy-rights {
+text-align: center;
